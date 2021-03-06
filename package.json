@@ -12,6 +12,7 @@
     "chalk": "^4.1.0",
     "delay": "^5.0.0",
     "faker": "^5.4.0",
+    "figlet": "^1.5.0",
     "fs": "0.0.1-security",
     "puppeteer": "^8.0.0",
     "readline": "^1.3.0"
