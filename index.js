@@ -4,7 +4,7 @@ const fs = require('fs');
 const readline = require('readline');
 const delay = require('delay');
 const chalk = require('chalk');
-
+const figlet = require('figlet');
 
 /*************
 SETTING LINK OFFER HERE
@@ -18,10 +18,17 @@ const rl = readline.createInterface({
 });
 
 const banner = ()=>{
+	console.log(figlet.textSync('Pamans', {
+    font: 'Graffiti',
+    horizontalLayout: 'default',
+    verticalLayout: 'default',
+    width: 80,
+    whitespaceBreak: true
+}));
 
-	console.log(chalk.red('============================='));
-	console.log(chalk.yellow('++ Auto Auto wush wush ++'));
-	console.log(chalk.green('============================='));
+	console.log(chalk.red('     ============================='));
+	console.log(chalk.yellow('     ++ POWERED BY PAMANS 2021 ++'));
+	console.log(chalk.green('     ============================='));
 	console.log('\n\n\n');
 }
 
@@ -39,6 +46,7 @@ rl.question(' INPUT YOUR CC LIST >> ', (answa) => {
         .split(" ");
 for (var ccdetail in array){
 var email = faker.internet.email();
+var email = email.toLowerCase();
 var pass = faker.internet.password();
 
 const cicilo = array[ccdetail];
