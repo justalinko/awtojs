@@ -18,7 +18,7 @@ const rl = readline.createInterface({
 });
 
 const banner = ()=>{
-	console.log(figlet.textSync('Pamans', {
+	await console.log(figlet.textSync('Pamans', {
     font: 'Graffiti',
     horizontalLayout: 'default',
     verticalLayout: 'default',
@@ -26,10 +26,10 @@ const banner = ()=>{
     whitespaceBreak: true
 }));
 
-	console.log(chalk.red('     ============================='));
-	console.log(chalk.yellow('     ++ POWERED BY PAMANS 2021 ++'));
-	console.log(chalk.green('     ============================='));
-	console.log('\n\n\n');
+	await console.log(chalk.red('     ============================='));
+	await console.log(chalk.yellow('     ++ POWERED BY PAMANS 2021 ++'));
+	await console.log(chalk.green('     ============================='));
+	await console.log('\n\n\n');
 }
 
 (async() => {
@@ -61,13 +61,13 @@ const browser = await puppeteer.launch({
 	headless:false,
 	executablePath:'C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe'});
  const page = await browser.newPage();
- console.log(chalk.cyan('[AWTO] USING CARD => %s'), `${cicilo}`);
- console.log(chalk.yellow('[AWTO] VISIT LINK OFFER => %s'),`${link_offer}`)
+ await console.log(chalk.cyan('[AWTO] USING CARD => %s'), `${cicilo}`);
+ await console.log(chalk.yellow('[AWTO] VISIT LINK OFFER => %s'),`${link_offer}`)
  await page.goto(link_offer,{waitUntil:'networkidle2'});
  await page.waitForSelector('#username');
 
-console.log(chalk.green('[AWTO] FILL USERNAME AND PASSWORD '));
-console.log(`[DETAIL] Email => ${email} | password => ${pass}`);
+await console.log(chalk.green('[AWTO] FILL USERNAME AND PASSWORD '));
+await console.log(`[DETAIL] Email => ${email} | password => ${pass}`);
 
 await page.type('#username',email,{delay:100});
 await page.type('#password',pass,{delay:100});
@@ -79,8 +79,8 @@ var firstname = faker.name.firstName();
 var lastname = faker.name.lastName();
 var zipcode = faker.address.zipCode();
 
-console.log(chalk.cyan('[AWTO] FILL DETAIL INFORMATION '));
-console.log(`[DETAIL] firstName => ${firstname} , lastname => ${lastname} , zipcode => ${zipcode}`)
+await console.log(chalk.cyan('[AWTO] FILL DETAIL INFORMATION '));
+await console.log(`[DETAIL] firstName => ${firstname} , lastname => ${lastname} , zipcode => ${zipcode}`)
 await page.type('#firstname',firstname,{delay:100})
 await page.type('#lastname',lastname,{delay:100});
 await page.type('#zipcode', zipcode,{delay:100});
@@ -91,19 +91,43 @@ await page.type('#year-short',expyear,{delay:100});
 await page.type('#cvv',cvv, {delay:100});
 await page.click('#submit');
 
+try{
+  await page.waitForSelector('#js-plan--trial-button');
+  await console.log(chalk.green('[AWTO] SUCCESS PAYMENT CLICK CONTINUE'));
+  await page.click('#js-plan--trial-button');
+}catch(e){
 const resp = await page.$eval('.text', respon => respon.textContent);
 if (resp.match(/Something went wrong/i)) {
-	console.log(chalk.red('[AWTO] XXXXXXXXXXXXXXXXX     TIDAK TEMBUS '));
-}else{
-	console.log(chalk.green('[AWTO] CROOOOOOOOOOOOOOOOOOOOOOOOTTTTTTTTT '));
-}
+	await console.log(chalk.red('[AWTO] PAYMENT ERROR : '),resp);
 
 await page.close();
 await browser.close();
+}else{
+   await page.waitForSelector('#js-plan--trial-button');
+  await console.log(chalk.green('[AWTO] SUCCESS PAYMENT CLICK CONTINUE'));
+    await page.click('#js-plan--trial-button');
+}
 
-console.log('==================[ DELAY 5 SECONDS ]==================');
+}
+await console.log('DELAY ');
+await delay(2000);
+await page.waitForSelector('#multimedia');
+await page.click('#multimedia > div:nth-child(2) > div:nth-child(2) > button:nth-child(1)');
+
 await delay(500);
-console.log('\n');
+
+
+await page.waitForSelector('#js-members-area-link');
+
+await page.click('#js-members-area-link');
+
+
+await console.log('==================[ DELAY 5 SECONDS ]==================');
+await delay(500);
+await console.log('\n');
+
+await page.close();
+await browser.close();
 }
 
 });
